@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import heroBanner from "@/assets/hero-banner.jpg";
 import pizzaIcon from "@/assets/pizza-icon.png";
 import burgerIcon from "@/assets/burger-icon.png";
@@ -12,6 +13,12 @@ const floatingIcons = [
 ];
 
 const HeroBanner = () => {
+  const navigate = useNavigate();
+
+  const handleExploreDeals = () => {
+    navigate("/deals");
+  };
+
   return (
     <motion.section
       initial={{ opacity: 0 }}
@@ -23,7 +30,7 @@ const HeroBanner = () => {
       <div className="absolute inset-0">
         <img
           src={heroBanner}
-          alt="Hero Banner"
+          alt="Delicious food deals near you"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-background/60 to-background/90" />
@@ -81,6 +88,7 @@ const HeroBanner = () => {
             Near You in Australia
           </p>
           <motion.button
+            onClick={handleExploreDeals}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             className="btn-premium text-sm md:text-base"
