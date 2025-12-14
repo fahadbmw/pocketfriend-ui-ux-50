@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Category from "./pages/Category";
 import Deals from "./pages/Deals";
 import RestaurantDetails from "./pages/RestaurantDetails";
+import DealDetails from "./pages/DealDetails";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import EditProfile from "./pages/EditProfile";
@@ -40,6 +41,7 @@ const App = () => {
             <Route path="/category" element={<Category />} />
             <Route path="/deals" element={<Deals />} />
             <Route path="/restaurant/:id" element={<RestaurantDetails />} />
+            <Route path="/restaurant/:restaurantId/deal/:dealId" element={<DealDetails />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/settings" element={<Settings />} />
             <Route path="/edit-profile" element={<EditProfile />} />
