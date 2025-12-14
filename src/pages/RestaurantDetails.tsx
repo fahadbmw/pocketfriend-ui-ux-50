@@ -11,8 +11,6 @@ import {
   Navigation,
   ChevronLeft,
   ChevronRight,
-  Percent,
-  QrCode,
   Pizza,
   UtensilsCrossed,
   Sparkles
@@ -20,7 +18,8 @@ import {
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import BottomNav from "@/components/layout/BottomNav";
-import { getRestaurantById, getRestaurantDeal } from "@/data/restaurants";
+import DealCard from "@/components/restaurant/DealCard";
+import { getRestaurantById, getDealsByRestaurantId } from "@/data/restaurants";
 
 const RestaurantDetails = () => {
   const { id } = useParams();
@@ -28,7 +27,7 @@ const RestaurantDetails = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const restaurant = getRestaurantById(id || "");
-  const deal = getRestaurantDeal(id || "");
+  const restaurantDeals = getDealsByRestaurantId(id || "");
 
   if (!restaurant) {
     return (
@@ -263,70 +262,6 @@ const RestaurantDetails = () => {
           </div>
         </div>
 
-        {/* Deal Card */}
-        {deal && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="card-premium p-5 mb-4 relative overflow-hidden"
-          >
-            {/* Shimmer Background */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent"
-              animate={{ x: ["-100%", "200%"] }}
-              transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-            />
-            
-            <div className="relative z-10">
-              {/* Deal Header */}
-              <div className="flex items-center gap-3 mb-4">
-                <motion.div 
-                  className="p-3 rounded-xl bg-primary/20"
-                  animate={{ 
-                    boxShadow: [
-                      "0 0 0 0 hsl(32 100% 50% / 0.4)",
-                      "0 0 20px 10px hsl(32 100% 50% / 0)",
-                    ]
-                  }}
-                  transition={{ repeat: Infinity, duration: 1.5 }}
-                >
-                  <Percent className="w-6 h-6 text-primary" />
-                </motion.div>
-                <div>
-                  <h3 className="text-xl font-bold text-foreground flex items-center gap-2">
-                    {deal.title}
-                    <motion.span
-                      animate={{ rotate: [0, 15, -15, 0] }}
-                      transition={{ repeat: Infinity, duration: 2 }}
-                    >
-                      <Sparkles className="w-5 h-5 text-primary" />
-                    </motion.span>
-                  </h3>
-                  {deal.validUntil && (
-                    <p className="text-foreground/50 text-xs">Valid until {deal.validUntil}</p>
-                  )}
-                </div>
-              </div>
-
-              {/* Deal Description */}
-              <p className="text-foreground/80 text-sm leading-relaxed mb-4">
-                {deal.description}
-              </p>
-
-              {/* Terms */}
-              <div className="space-y-2 mb-4">
-                {deal.terms.map((term, index) => (
-                  <div key={index} className="flex items-center gap-2 text-foreground/60 text-xs">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary" />
-                    <span>{term}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-
         {/* Info Cards */}
         <div className="card-premium p-4 mb-4">
           {/* Address */}
@@ -417,39 +352,31 @@ const RestaurantDetails = () => {
           </div>
         )}
 
-        {/* CTA Buttons */}
-        <div className="flex gap-3">
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex-1 btn-outline-white flex items-center justify-center gap-2"
+        {/* Deals Section */}
+        {restaurantDeals.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="mb-4"
           >
-            <Heart className="w-4 h-4" />
-            Save Deal
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.02, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            className="flex-1 btn-premium flex items-center justify-center gap-2 relative overflow-hidden"
-          >
-            {/* Pulsating glow */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-primary to-orange-light rounded-xl"
-              animate={{ 
-                boxShadow: [
-                  "0 0 20px hsl(32 100% 50% / 0.4)",
-                  "0 0 40px hsl(32 100% 50% / 0.6)",
-                  "0 0 20px hsl(32 100% 50% / 0.4)",
-                ]
-              }}
-              transition={{ repeat: Infinity, duration: 2 }}
-            />
-            <span className="relative z-10 flex items-center gap-2">
-              <QrCode className="w-4 h-4" />
-              Redeem Discount
-            </span>
-          </motion.button>
-        </div>
+            <div className="flex items-center gap-2 mb-4">
+              <Sparkles className="w-5 h-5 text-primary" />
+              <h2 className="text-xl font-bold text-foreground">Available Deals</h2>
+            </div>
+            
+            <div className="space-y-3">
+              {restaurantDeals.map((deal, index) => (
+                <DealCard 
+                  key={deal.id} 
+                  deal={deal} 
+                  restaurant={restaurant} 
+                  index={index}
+                />
+              ))}
+            </div>
+          </motion.div>
+        )}
       </motion.div>
 
       <BottomNav />
