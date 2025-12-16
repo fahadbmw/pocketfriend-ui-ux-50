@@ -94,36 +94,36 @@ const FoodCategories = () => {
                   <motion.img
                     src={category.icon}
                     alt={category.name}
-                    className="w-8 h-8 object-contain"
-                    whileHover={{ 
+                    className="w-14 h-14 object-contain"
+                    whileHover={{
                       y: [0, -4, 0],
                       rotate: [0, -5, 5, 0],
                       transition: { duration: 0.5, ease: "easeInOut" }
                     }}
-                    animate={{ 
+                    animate={{
                       y: [0, -2, 0],
                     }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2, 
+                    transition={{
+                      repeat: Infinity,
+                      duration: 2,
                       delay: index * 0.3,
                       ease: "easeInOut"
                     }}
                   />
                 ) : (
                   <motion.span
-                    className="text-2xl"
-                    whileHover={{ 
+                    className="text-4xl"
+                    whileHover={{
                       y: [0, -4, 0],
                       rotate: [0, -5, 5, 0],
                       transition: { duration: 0.5, ease: "easeInOut" }
                     }}
-                    animate={{ 
+                    animate={{
                       y: [0, -2, 0],
                     }}
-                    transition={{ 
-                      repeat: Infinity, 
-                      duration: 2, 
+                    transition={{
+                      repeat: Infinity,
+                      duration: 2,
                       delay: index * 0.3,
                       ease: "easeInOut"
                     }}
